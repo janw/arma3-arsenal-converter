@@ -5,10 +5,10 @@ from glob import glob
 from os import path
 
 BASE_PATH = path.dirname(path.realpath(__file__))
-INPUT_FILEXTENSION = '.sqf'
+INPUT_FILEEXTENSION = '.txt'
+OUTPUT_FILEEXTENSION = '.sqf'
 
 def parse_file(fp):
-
 	output = []
 	for line in fp:
 		line = line.rstrip()
@@ -28,23 +28,23 @@ def parse_file(fp):
 
 	return output
 
-def write_output_to_file(output, fp):
 
+def write_output_to_file(output, fp):
 	for line in output:
 		print(line, file=fp)
 
 
 def main():
 	print('Searching in', BASE_PATH)
-	matched_files = glob(path.join(BASE_PATH, '*.txt'))
+	matched_files = glob(path.join(BASE_PATH, '*' + INPUT_FILEEXTENSION))
 
 	for file in matched_files:
 		print('Converting', file)
-		
+
 		with open(file, 'r') as fp:
 			output_content = parse_file(fp)
 
-		with open(file + '.sqf', 'w') as fp:
+		with open(file + OUTPUT_FILEEXTENSION, 'w') as fp:
 			write_output_to_file(output_content, fp)
 
 if __name__ == '__main__':
